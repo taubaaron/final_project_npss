@@ -91,7 +91,7 @@ def process_phon_label(label_path):
 def process_timbre_model_condition(time_phon_list, all_phon, f0):
 
     # process f0
-    # mappling to mel scale
+    # mapping to mel scale
 
     f0_mel = 1127 * np.log(1 + f0 / 700)
     f0_mel_min = 1127 * np.log(1 + f0_min / 700)
@@ -127,7 +127,10 @@ def process_timbre_model_condition(time_phon_list, all_phon, f0):
                 end = time_phon_list[j][1]
                 width = end - begin
 
-                # 正常语速1分钟200个字
+                # 正常语速1分钟200个字 == 200 words per minute at normal speaking rate
+                """
+                A&A: splits each phoneme timing into beginning(=0), middle(=1) and end(=2)
+                """
                 if width < 150:
                     fpos = width / 3
                     spos = 2 * width / 3
@@ -215,9 +218,9 @@ if __name__ == '__main__':
 
             data_to_save.append((file_name, time_phon_list, f0, code_sp, code_ap, v_uv))
 
-            _sp_min = np.min(code_sp)
+            _sp_min = np.min(code_sp)  # A&A: new sp min retrieved from new file
             _sp_max = np.max(code_sp)
-            if _sp_min < sp_min:
+            if _sp_min < sp_min:  # A&A: if the new file has a lower freq than the predefined sp min then replace
                 sp_min = _sp_min
             if _sp_max > sp_max:
                 sp_max = _sp_max
