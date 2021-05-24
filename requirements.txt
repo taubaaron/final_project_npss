@@ -3,6 +3,6 @@ torch
 librosa
 matplotlib
 pysptk
-tensorflow 
+tensorflow==1.15.0
 tqdm
 pyworld

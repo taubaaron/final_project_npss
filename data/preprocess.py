@@ -195,7 +195,8 @@ if __name__ == '__main__':
     if not os.path.exists(te_condition_folder):
         os.mkdir(te_condition_folder)
 
-    test_names = ['nitech_jp_song070_f001_015', 'nitech_jp_song070_f001_029', 'nitech_jp_song070_f001_040']
+    # test_names = ['nitech_jp_song070_f001_015', 'nitech_jp_song070_f001_029', 'nitech_jp_song070_f001_040']
+    test_names = ['WGAN_01']
 
     raw_folder = os.path.join(os.path.dirname(__file__), './raw')
 
@@ -236,7 +237,7 @@ if __name__ == '__main__':
         all_phon = list(np.load(os.path.join(os.path.dirname(__file__), 'timbre_model/all_phonetic.npy')))
     else:
         np.save(os.path.join(os.path.dirname(__file__), 'timbre_model/min_max_record.npy'), [sp_min, sp_max, ap_min, ap_max])
-        np.save(os.path.join(os.path.dirname(__file__), 'timbre_model/all_phonetic.npy'), all_phon)
+        np.save(os.path.join(os.path.dirname(__file__), 'timbre_model/all_p\honetic.npy'), all_phon)
 
 
     for file_name, time_phon_list, f0, code_sp, code_ap, v_uv in data_to_save:

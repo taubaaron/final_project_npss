@@ -33,8 +33,8 @@ def load_latest_model_from(mtype, location):
     else:
         hparam = hparams.create_vuv_hparams()
 
-    model = WaveNetModel(hparam, device).to(device)
-    states = torch.load(newest_file, map_location=device)
+    model = WaveNetModel(hparam, device).to(device) # A&A: creates the architecture of the model - hyperparameters from predefined values
+    states = torch.load(newest_file, map_location=device)  # A&A: loads latest model's weights and biases
     model.load_state_dict(states['state_dict'])
 
     return model
@@ -116,22 +116,22 @@ def generate_test(filename):
 
     sp, raw_sp = generate_timbre(0, sp_max, sp_min, condi, None)
 
-    plt.imshow(np.log(np.transpose(sp)), aspect='auto', origin='bottom', interpolation='none')
+    plt.imshow(np.log(np.transpose(sp)), aspect='auto', origin='lower', interpolation='none')
     plt.show()
 
     sp1 = load_timbre('data/timbre_model/test/sp/'+filename+'_sp.npy', 0, sp_max, sp_min)
 
-    plt.imshow(np.log(np.transpose(sp1)), aspect='auto', origin='bottom', interpolation='none')
+    plt.imshow(np.log(np.transpose(sp1)), aspect='auto', origin='lower', interpolation='none')
     plt.show()
     ####################################################################################################
     ap, raw_ap = generate_timbre(1, ap_max, ap_min, condi, raw_sp)
 
-    plt.imshow(np.log(np.transpose(ap)), aspect='auto', origin='bottom', interpolation='none')
+    plt.imshow(np.log(np.transpose(ap)), aspect='auto', origin='lower', interpolation='none')
     plt.show()
 
     ap1 = load_timbre('data/timbre_model/test/ap/'+filename+'_ap.npy', 1, ap_max, ap_min)
 
-    plt.imshow(np.log(np.transpose(ap1)), aspect='auto', origin='bottom', interpolation='none')
+    plt.imshow(np.log(np.transpose(ap1)), aspect='auto', origin='lower', interpolation='none')
     plt.show()
 
     #########################################################################################################
@@ -147,9 +147,9 @@ def generate_test(filename):
     # plt.show()
 
     path = 'data/raw/'+filename+'.raw'
-    _f0, _sp, code_sp, _ap, code_ap = process_wav(path)
+    _f0, _sp, code_sp, _ap, code_ap = process_wav(path)  # A&A: is the raw file used in Train stage?
     # 合成原始语音
-    synthesized = pw.synthesize(_f0, sp, ap, 32000, pw.default_frame_period)
+    synthesized = pw.synthesize(_f0, sp, ap, 32000, pw.default_frame_period)  #TODO: figure what happens here
     # 1.输出原始语音
     sf.write('./data/gen_wav/'+filename+''
              '.wav', synthesized, 32000)
@@ -157,5 +157,6 @@ def generate_test(filename):
 
 
 if __name__ == '__main__':
-    generate_test('nitech_jp_song070_f001_029')
+    # generate_test('nitech_jp_song070_f001_023')  #TODO: change inside bracket to match test.
+    generate_test('WGAN_01')  #TODO: change inside bracket to match test.
 
